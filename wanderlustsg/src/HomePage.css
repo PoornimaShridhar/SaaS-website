@@ -14,11 +14,25 @@ h2 {
     margin-top: 20px;
 }
 
+h2 {
+    font-family: 'Aclonica', sans-serif;
+    font-size: 15px;
+    /* margin: 5px; */
+    margin-top: 0px;
+}
+
 p {
     font-family: 'Emblema One', sans-serif;
     font-size: 10px;
     margin: 5px;
 }
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Adjust as needed */
+  }
 
 .nav-links {
     display: flex;
@@ -28,13 +42,15 @@ p {
   }
 
 
-
 .img-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh; 
     padding: 20px;
+    max-width: 1200px;
+    max-height: 600px;
+    margin: 0 auto;
 }
     
 img {
@@ -45,12 +61,15 @@ img {
 
 .navigation-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: centre;
     align-items: center;
     padding: 20px;
     border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 0px; 
+    max-width: 1200px;
+    max-height: 600px;
+    margin: 0 auto;
 }
 
 .search-container {
@@ -60,13 +79,14 @@ img {
     border-radius: 10px;
     height: 60px;
     width: 98%;
-    max-width: 2000px;
-    /* margin: 0 auto; */
     margin-bottom: 10px;
+    max-width: 1200px;
+    max-height: 600px;
+    margin: 0 auto;
 }
 
 input {
-    width: 100%; 
+    width: 90%; 
     padding: 5px;
     border: none;
     border-radius: 10px;
@@ -88,8 +108,14 @@ input {
 
 .post-container {
     display: flex;
+    justify-content: centre;
+    align-items: center;
     justify-content: space-around;
-    margin: 10px 0; 
+    margin: 30px 50px; 
+    max-width: 1500px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
   
 .post-column {
@@ -97,10 +123,13 @@ input {
     margin: 0 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    min-width: 300px; 
+    min-height: 300px;
 }
   
 .post-column img {
-    width: 100%; 
+    width: 200px; 
+    height: 150px;
     border-radius: 5px;
 }
 
@@ -114,45 +143,3 @@ input {
 
 
 
-/* Dropdown Button */
-.dropbtn {
-    background-color: transparent;
-    color: white;
-    padding: 8px;
-    font-size: 16px;
-    border: none;
-  }
-  
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    left: -160px;
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #ddd;}
-  
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {display: block;}
-  
-  /* Change the background color of the dropdown button when the dropdown content is shown */
-  .dropdown:hover .dropbtn {background-color: #FF4F00;}

@@ -1,0 +1,8 @@
+[
+  { "id": 1, "src": "/1.jpg", "alt": "Post 1", "name": "Marina Bay Sand", "category": "landscape", "rating": 4.6  },
+  { "id": 2, "src": "/2.jpg", "alt": "Post 2", "name": "Hainanese Chicken Rice", "category": "food", "rating": 4.1  },
+  { "id": 3, "src": "/3.jpg", "alt": "Post 3", "name": "ION Orchard", "category": "shopping", "rating": 4.5  },
+  { "id": 4, "src": "/4.jpg", "alt": "Post 4", "name": "Raffles Singapore", "category": "hotel", "rating": 4.5  },
+  { "id": 5, "src": "/5.jpg", "alt": "Post 5", "name": "Chilli Crab", "category": "food", "rating": 4.1  },
+  { "id": 6, "src": "/6.jpg", "alt": "Post 6", "name": "Garden By The Bay", "category": "landscape", "rating": 4.7  }
+]
