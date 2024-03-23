@@ -17,7 +17,7 @@ const HomePage = () => {
     setBoxSize({
       width: '90vm', 
       height: 'auto', 
-    });
+    }); 
   };
 
   const headerStyle = {

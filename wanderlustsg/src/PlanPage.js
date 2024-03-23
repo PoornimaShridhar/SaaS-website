@@ -68,7 +68,7 @@ const PlanPage = () => {
           <span style={spaceStyle}></span>
           <h2 style={{ marginTop: '5px' }} >
           Home
-          </h2>       
+          </h2>        
           <span style={spaceStyle}></span>
           <h2 onClick={handleReload} style={{ marginTop: '5px', color: '#FF4F00' }}>
             Plan
@@ -76,24 +76,24 @@ const PlanPage = () => {
         </div>
       </header>
       <div style={{ marginTop: '50px', marginLeft: '20px' }}>
-        <button className="btn" style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px' }}> <span style={{ fontSize: '20px' }}> AI Recommendation </span></button>
+        <button className="btn" style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', border:'transparent' }}> <span style={{ fontSize: '20px' }}> AI Recommendation </span></button>
       </div>
       <span style={spaceStyle}></span>
 
       <div className="container">
       <div className="scrollable-content">
         {/* Render your rows here */}
-        {Array.from({ length: 10 }, (_, index) => (
+        {Array.from({ length: 4 }, (_, index) => (
           <div key={index} className="row">
           <img 
           src={`${process.env.PUBLIC_URL}/${index + 1}.jpg`} 
           alt={`Image ${index + 1}`} 
-          style={{ width: '200px', height: '100px' }}
+          style={{ width: '100px', height: '100px' }}
           />
             <h2 style={{marginLeft: '50px'}}>{index + 1}</h2>
             <button 
             onClick={handleAddButtonClick}
-            style={{ padding: '10px 20px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', marginLeft: '350px'}}> 
+            style={{ padding: '10px 20px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', marginLeft: '350px', outline:'none', border:'transparent'}}> 
             Add
             </button>
           </div>
@@ -104,7 +104,7 @@ const PlanPage = () => {
       <div style={{ margin: '20px 20px', height: '1.5px', width: '95%', backgroundColor: '#FF4F00' }} />
 
       <div style={{ marginTop: '50px', marginLeft: '20px' }}>
-        <button className="btn" style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px' }}> <span style={{ fontSize: '20px' }}> Plan </span></button>
+        <button className="btn" style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', border:'transparent'}}> <span style={{ fontSize: '20px' }}> Plan </span></button>
       </div>
       
     </div>

@@ -21,7 +21,7 @@ p {
 }
 
 .container {
-    width: 700px; /* Adjust width as needed */
+    width: 600px; /* Adjust width as needed */
     height: 200px; /* Adjust height as needed */
     border: 1px solid #ccc;
     border-radius: 15px;
@@ -29,16 +29,16 @@ p {
     margin-left: 20px;
   }
   
-  .scrollable-content {
-    padding: 10px; /* Adjust padding as needed */
-  }
-  
-  .row {
-    display: flex;
+.scrollable-content {
+padding: 10px; /* Adjust padding as needed */
+}
 
-    align-items: center;
-    border-bottom: 1px solid #ccc; /* Optional: Add borders between rows */
-  }
+.row {
+display: flex;
+
+align-items: center;
+border-bottom: 1px solid #ccc; /* Optional: Add borders between rows */
+}
 
 
 
