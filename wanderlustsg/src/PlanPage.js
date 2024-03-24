@@ -1,14 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import './PlanPage.css';
-import { FaRegUser } from "react-icons/fa";
-import HomePage from './HomePage';
 
 const PlanPage = () => {
   const [boxSize, setBoxSize] = useState({ width: '90vm', height: 'auto' });
-  const [showMainPage, setShowMainPage] = useState(false);
+  const [imageData, setImageData] = useState([]);
+  const [budget, setBudget] = useState('');
+  const [days, setDays] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
-  const handleOtherPage = () => {
-    setShowMainPage(true);
+  const handlePlanButtonClick = () => {
+    setShowPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  };
+
+  const handleBudgetChange = (e) => {
+    const value = parseInt(e.target.value);
+    if (value >= 0) {
+      setBudget(value);
+    }
+  };
+  
+  const handleDaysChange = (e) => {
+    const value = parseInt(e.target.value);
+    if (value >= 0) {
+      setDays(value);
+    }
+  };
+
+  const handlePlanSubmit = () => {
+    // Handle submission of budget and days
+    console.log('Budget:', budget);
+    console.log('Days:', days);
+    // You can add further logic here, such as sending the data to a backend server
+    setShowPopup(false); // Close the popup after submission
   };
 
   const handleResize = () => {
@@ -21,6 +48,27 @@ const PlanPage = () => {
   const handleReload = () => {
     window.location.reload(); // Reload the current page
   };
+
+  const handleAddButtonClick = () => {
+    // Handle button click action here
+    console.log('Add button clicked');
+  };
+
+  useEffect(() => {
+    fetch('image.json')
+      .then(response => response.json())
+      .then(data => setImageData(data))
+      .catch(error => console.error('Error fetching image data:', error));
+  }, []);
+
+  // Attach the event listener on component mount
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    // Remove the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const headerStyle = {
     display: 'flex',
@@ -45,19 +93,28 @@ const PlanPage = () => {
     margin: '15px', // Adjust the space between the elements as needed
   };
 
-
-  // Attach the event listener on component mount
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    // Remove the event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  const handleAddButtonClick = () => {
-    // Handle button click action here
-    console.log('Add button clicked');
+  const styles = {
+    popup: {
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: 'white',
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)',
+      zIndex: '999'
+    },
+    displayBlock: {
+      display: 'block'
+    },
+    displayNone: {
+      display: 'none'
+    },
+    popupHeader: {
+      display: 'flex',
+      justifyContent: 'flex-end'
+    }
   };
 
   return (
@@ -83,17 +140,17 @@ const PlanPage = () => {
       <div className="container">
       <div className="scrollable-content">
         {/* Render your rows here */}
-        {Array.from({ length: 4 }, (_, index) => (
-          <div key={index} className="row">
+          {imageData.map(image => (
+          <div key={image.id} className="row">
           <img 
-          src={`${process.env.PUBLIC_URL}/${index + 1}.jpg`} 
-          alt={`Image ${index + 1}`} 
-          style={{ width: '100px', height: '100px' }}
-          />
-            <h2 style={{marginLeft: '50px'}}>{index + 1}</h2>
+              src={process.env.PUBLIC_URL + image.src} 
+              alt={image.name} 
+              style={{ width: '100px', height: '100px' }}
+            />
+            <h2 style={{marginLeft: '50px'}}>{image.name}</h2>
             <button 
             onClick={handleAddButtonClick}
-            style={{ padding: '10px 20px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', marginLeft: '350px', outline:'none', border:'transparent'}}> 
+            style={{ padding: '10px 20px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', marginLeft: 'auto', outline:'none', border:'transparent'}}> 
             Add
             </button>
           </div>
@@ -101,13 +158,39 @@ const PlanPage = () => {
       </div>
     </div>
     
-      <div style={{ margin: '20px 20px', height: '1.5px', width: '95%', backgroundColor: '#FF4F00' }} />
+    <div style={{ margin: '20px 20px', height: '1.5px', width: '95%', backgroundColor: '#FF4F00' }} />
 
-      <div style={{ marginTop: '50px', marginLeft: '20px' }}>
-        <button className="btn" style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', border:'transparent'}}> <span style={{ fontSize: '20px' }}> Plan </span></button>
+    <div style={{ marginTop: '50px', marginLeft: '20px' }}>
+      <button className="btn" onClick={handlePlanButtonClick} style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', border:'transparent'}}> <span style={{ fontSize: '20px' }}> Plan </span></button>
+    </div>
+    
+    <div style={{ position: 'relative' }}>
+    <div className="gray-container" style={{margin: '20px'}}></div>
+  
+    {showPopup && (
+      <>
+      <div className="overlay">
+        <div className="popup" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '999' }}>
+          <div className="popup-content" style={{ backgroundColor: 'white', padding: '30px 60px', borderRadius: '15px' }}>
+            <span className="close" onClick={handlePopupClose} style={{ fontSize: '30px' }}>&times;</span>
+            <h1 style={{marginBottom: '10px', marginTop: '10px'}}>Plan Your Trip</h1>
+            <div>
+              <label htmlFor="budget" style={{marginRight: '10px'}}>Budget:</label>
+              <input type="number" id="budget" value={budget} onChange={handleBudgetChange} style={{width:'100px'}}/>
+            </div>
+            <div>
+              <label htmlFor="days" style={{marginRight: '10px'}}>Days:</label>
+              <input type="number" id="days" value={days} onChange={handleDaysChange} style={{width:'100px'}}/>
+            </div>
+            <button onClick={handlePlanSubmit} style={{ padding: '15px 30px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', border:'transparent', marginLeft: '40px'}}>Submit</button>
+          </div>
+        </div>
+      </div>
+      </>
+    )}
       </div>
       
-    </div>
+  </div>
   );
 };
 

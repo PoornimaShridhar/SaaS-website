@@ -52,17 +52,6 @@ const HomePage = () => {
     }); 
   };
 
-  // const renderStars = (rating) => {
-  //   const stars = [];
-  //   for (let i = 1; i <= 5; i++) {
-  //     if (i <= rating) {
-  //       stars.push(<FaStar key={i} style={{ color: 'orange', fontSize: '24px' }}/>);
-  //     } else {
-  //       stars.push(<FaRegStar key={i} style={{ color: 'orange', fontSize: '24px' }}/>);
-  //     }
-  //   }
-  //   return stars;
-  // };
   const renderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating); // Number of full stars
@@ -217,7 +206,7 @@ const HomePage = () => {
       </div>
     <div>
     
-    <div >
+    <div>
     {chunkArray(filteredData, 3).map((row, rowIndex) => (
       <div key={rowIndex} className="post-container">
         {row.map(image => (
