@@ -6,11 +6,13 @@ import PlanPage from './PlanPage';
 
 import reportWebVitals from './reportWebVitals';
 import HomePage from './HomePage';
+import InformationPage from './Information';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <PlanPage />
+    {/* <PlanPage /> */}
+      <InformationPage />
   </React.StrictMode>
 );
 
