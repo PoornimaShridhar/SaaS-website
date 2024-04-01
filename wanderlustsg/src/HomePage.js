@@ -171,33 +171,33 @@ const HomePage = () => {
       </nav>
 
       <div style={{ textAlign: 'centre', paddingBottom: '20px', paddingTop: '1px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
-          <RiFunctionLine style={{ fontSize: '30px' }} onClick={() => handleAll()}/>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px'}}>
+          <RiFunctionLine style={{ fontSize: '27px' }} onClick={() => handleAll()}/>
           
           <button className="btn" 
           onClick={() => handleCategoryButtonClick('food')} 
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 40px', borderRadius: '30px', backgroundColor: '#F7F4F4', color: 'black', fontSize: '15px' }}>
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 5%', borderRadius: '30px', backgroundColor: '#F7F4F4', color: 'black', fontSize: '15px' }}>
           <IoFastFoodOutline size={20} color='black' style={{ marginRight: '10px' }} /> 
           <h3 style={{ fontSize: '15px', margin: 0, display: 'inline-block' }}> Food </h3>
           </button>
 
           <button className="btn" 
           onClick={() => handleCategoryButtonClick('hotel')} 
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 40px', borderRadius: '30px', backgroundColor: '#F7F4F4', color: 'black', fontSize: '15px' }}>
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 5%', borderRadius: '30px', backgroundColor: '#F7F4F4', color: 'black', fontSize: '15px' }}>
           <MdOutlineHotel size={20} color='black' style={{ marginRight: '10px' }} />
           <h3 style={{ fontSize: '15px', margin: 0, display: 'inline-block' }}> Hotel </h3>
           </button>
 
           <button className="btn" 
           onClick={() => handleCategoryButtonClick('landscape')} 
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 40px',borderRadius: '30px', backgroundColor: '#F7F4F4', color: 'black', fontSize: '15px' }}>
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 5%',borderRadius: '30px', backgroundColor: '#F7F4F4', color: 'black', fontSize: '15px' }}>
           <IoCameraOutline size={20} color='black' style={{ marginRight: '10px' }} /> 
           <h3 style={{ fontSize: '15px', margin: 0, display: 'inline-block' }}> landscape </h3>
           </button>
 
           <button className="btn" 
           onClick={() => handleCategoryButtonClick('shopping')} 
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 40px',borderRadius: '30px', backgroundColor: '#F7F4F4', color: 'black', fontSize: '15px' }}>
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 5%',borderRadius: '30px', backgroundColor: '#F7F4F4', color: 'black', fontSize: '15px' }}>
           <CiShoppingCart size={20} color='black' style={{ marginRight: '10px' }} /> 
           <h3 style={{ fontSize: '15px', margin: 0, display: 'inline-block' }}> Shopping </h3>
           </button>
@@ -206,9 +206,9 @@ const HomePage = () => {
       </div>
     <div>
     
-    <div>
+    <div style={{overflowX: 'auto'}}>
     {chunkArray(filteredData, 3).map((row, rowIndex) => (
-      <div key={rowIndex} className="post-container">
+      <div key={rowIndex} className="post-container" >
         {row.map(image => (
           <div key={image.id} className="post-column">
             <img src={image.src} alt={image.alt} style={{ width: '300px', height: '200px' }} />
