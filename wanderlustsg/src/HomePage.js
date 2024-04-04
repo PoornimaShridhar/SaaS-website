@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useHistory} from 'react';
+import React, { useState, useEffect} from 'react';
 import './HomePage.css';
-import PlanPage from './PlanPage';
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { BrowserRouter, Router, Route, Routes} from 'react-router-dom';
 import { IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlineHotel } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
 import { CiShoppingCart } from "react-icons/ci";
 import { RiFunctionLine } from "react-icons/ri";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FaStar, FaRegStar } from "react-icons/fa";
+
 
 const HomePage = () => {
   const [boxSize, setBoxSize] = useState({ width: '90vm', height: 'auto' });
@@ -17,9 +16,10 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const navigate = useNavigate();
+
   
   const handleAll = () => {
-    // setSelectedCategory('');
     setSelectedCategory('');
     setSearchInput('');
     setFilteredData(imageData);
@@ -40,10 +40,6 @@ const HomePage = () => {
     const filtered = imageData.filter(item => item.category === category);
     setFilteredData(filtered);
   };
-
-  const filteredImageData = selectedCategory
-    ? imageData.filter(item => item.category === selectedCategory)
-    : imageData;
     
   const handleResize = () => {
     setBoxSize({
@@ -54,8 +50,8 @@ const HomePage = () => {
 
   const renderStars = (rating) => {
     const stars = [];
-    const fullStars = Math.floor(rating); // Number of full stars
-    const decimalStar = rating - fullStars; // Decimal part of the rating
+    const fullStars = Math.floor(rating); 
+    const decimalStar = rating - fullStars; 
   
     // Render full stars
     for (let i = 1; i <= fullStars; i++) {
@@ -72,18 +68,41 @@ const HomePage = () => {
     // Render empty stars for remaining space
     const remainingStars = 5 - stars.length;
     for (let i = 0; i < remainingStars; i++) {
-      stars.push(<FaRegStar key={`empty-${i}`} style={{ color: 'orange', fontSize: '24px' }} />);
+      stars.push(<FaRegStar key={`empty-${i}`} style={{ color: 'white', fontSize: '24px' }} />);
     }
   
     return stars;
   };
+
+  // Fisher-Yates (Knuth) Shuffle algorithm
+  function shuffleArray(array) {
+    let currentIndex = array.length,  randomIndex;
+
+    // While there remain elements to shuffle...
+    while (currentIndex !== 0) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+  }
   
 
 
   useEffect(() => {
-    fetch('image.json')
+    fetch('/image.json')
       .then(response => response.json())
-      .then(data => {setImageData(data); setFilteredData(data);})
+      .then(data => {
+        // Shuffle the data
+        const shuffledData = shuffleArray(data);
+        setImageData(data); 
+        setFilteredData(data);})
       .catch(error => console.error('Error fetching image data:', error));
   }, []);
 
@@ -98,16 +117,34 @@ const HomePage = () => {
   }, []);
 
   const handleReload = () => {
-    window.location.reload(); // Reload the current page
+    window.location.reload();
+  };
+
+  const handleNavigateToPlanPage = () => {
+    navigate('/plan'); 
   };
 
   const handleSearchInputChange = (e) => {
     const inputValue = e.target.value.toLowerCase();
     setSearchInput(inputValue);
-    const filtered = imageData.filter(image => image.name.toLowerCase() === inputValue);
-    setFilteredData(filtered);
-    // setSelectedCategory('');
-  };
+
+    // Check if the input value is not empty
+    if (inputValue.trim() !== '') {
+        // Filter images whose names include the inputValue substring
+        const filtered = imageData.filter(image => 
+            image.name.toLowerCase().includes(inputValue)
+        );
+        setFilteredData(filtered);
+    } else {
+        // If the input is empty, show all images
+        setFilteredData(imageData);
+    }
+};
+
+const handleImageClick = (imageId) => {
+  navigate(`/info/${imageId}`); 
+};
+
 
   const headerStyle = {
     display: 'flex',
@@ -129,11 +166,10 @@ const HomePage = () => {
   };
 
   const spaceStyle = {
-    margin: '15px', // Adjust the space between the elements as needed
+    margin: '15px', 
   };
 
   return (
-    <BrowserRouter>
     <div>
       <header style={headerStyle}>
         <div style={leftStyle}>
@@ -147,12 +183,12 @@ const HomePage = () => {
 
             <span style={spaceStyle}></span>
 
-            <h2 style={{ marginTop: '5px', cursor: 'pointer'}} >
+            <h2 style={{ marginTop: '5px', cursor: 'pointer'}} onClick={handleNavigateToPlanPage} >
             Plan
             </h2>
 
             <span style={spaceStyle}></span> 
-        </div>      
+        </div>     
       </header>
 
       <div className="img-container" style={boxSize}>
@@ -206,11 +242,11 @@ const HomePage = () => {
       </div>
     <div>
     
-    <div style={{overflowX: 'auto'}}>
+    <div style={{overflowX: 'auto' }}>
     {chunkArray(filteredData, 3).map((row, rowIndex) => (
       <div key={rowIndex} className="post-container" >
         {row.map(image => (
-          <div key={image.id} className="post-column">
+          <div key={image.id} className="post-column" onClick={() => handleImageClick(image.id)}>
             <img src={image.src} alt={image.alt} style={{ width: '300px', height: '200px' }} />
             <p className="image-name">{image.name}</p>
             <div className="rating">
@@ -223,7 +259,6 @@ const HomePage = () => {
     </div>
     </div>
   </div>
-  </BrowserRouter>
   );
 };  
 

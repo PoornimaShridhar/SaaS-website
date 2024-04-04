@@ -1,19 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import './PlanPage.css';
+import { useNavigate } from 'react-router-dom';
 
 const PlanPage = () => {
   const [boxSize, setBoxSize] = useState({ width: '90vm', height: 'auto' });
   const [imageData, setImageData] = useState([]);
+  const [imageFilteredData, setImageFilteredData] = useState([]);
   const [budget, setBudget] = useState('');
   const [days, setDays] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
+  const [showInterestsPopup, setShowInterestsPopup] = useState(false);
+  const navigate = useNavigate();
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [showPlanModal, setShowPlanModal] = useState(false);
+  const [likedImages, setLikedImages] = useState([]);
+  const [planInitiated, setPlanInitiated] = useState(false);
+  const combinedImages = [...selectedImages, ...likedImages.filter(li => !selectedImages.some(si => si.id === li.id))];
 
+
+  useEffect(() => {
+    const likedIds = JSON.parse(localStorage.getItem('likes')) || [];
+    const likedImages = imageData.filter(image => likedIds.includes(image.id.toString()));
+    setLikedImages(likedImages);
+  }, [imageData]); 
+
+  
   const handlePlanButtonClick = () => {
-    setShowPopup(true);
+    setShowPlanModal(true);
+  };
+  
+  const handlePlanSubmit = (event) => {
+    // Handle submission of budget and days
+    console.log('Budget:', budget);
+    console.log('Days:', days);
+    event.preventDefault();
+    setShowPlanModal(false); 
+    setPlanInitiated(true);
+    const likes = JSON.parse(localStorage.getItem('likes')) || [];
+
+    console.log('Budget:', budget, 'Days:', days, 'Likes:', likes, 'Selected Images:', selectedImages);
+
   };
 
   const handlePopupClose = () => {
-    setShowPopup(false);
+    setShowPlanModal(false);
   };
 
   const handleBudgetChange = (e) => {
@@ -30,13 +59,36 @@ const PlanPage = () => {
     }
   };
 
-  const handlePlanSubmit = () => {
-    // Handle submission of budget and days
-    console.log('Budget:', budget);
-    console.log('Days:', days);
-    // You can add further logic here, such as sending the data to a backend server
-    setShowPopup(false); // Close the popup after submission
+  const handleInfo = (imageId) => {
+    navigate(`/info/${imageId}`);
   };
+  
+  const handleAISubmit = (event) => {
+    event.preventDefault();
+
+    const selections = Object.entries(isChecked)
+    .filter(([key, value]) => value)
+    .map(([key]) => key.replace('checkbox', ''));
+    
+    console.log('Selection:', selections);
+    const filteredImages = imageData.filter(image => selections.includes(image.choice));
+
+    setImageFilteredData(filteredImages);
+
+    localStorage.setItem('selectedChoices', JSON.stringify(selections));
+
+    setShowInterestsPopup(false); 
+  };
+
+  useEffect(() => {
+    // Attempt to retrieve saved selections
+    const savedSelections = JSON.parse(localStorage.getItem('selectedChoices'));
+    if (savedSelections) {
+      const filteredImages = imageData.filter(image => savedSelections.includes(image.choice));
+      setImageFilteredData(filteredImages);
+    }
+  }, [imageData]);
+  
 
   const handleResize = () => {
     setBoxSize({
@@ -46,13 +98,25 @@ const PlanPage = () => {
   };
 
   const handleReload = () => {
-    window.location.reload(); // Reload the current page
+    window.location.reload();
   };
 
-  const handleAddButtonClick = () => {
-    // Handle button click action here
-    console.log('Add button clicked');
+  const handleNavigateToHomePage = () => {
+    navigate('/'); 
   };
+  
+
+  const handleAddButtonClick = (id) => {
+    // Find the image in your dataset
+    const imageToAdd = imageData.find(image => image.id === id);
+    if (imageToAdd) {
+        setSelectedImages(prev => [...prev, imageToAdd]);
+        console.log('Add button clicked for image:', imageToAdd.name);
+    }
+    console.log('Add button clicked for images:', imageToAdd);
+  };
+  console.log('Add button clicked for images:', selectedImages);
+
 
   useEffect(() => {
     fetch('image.json')
@@ -70,6 +134,43 @@ const PlanPage = () => {
     };
   }, []);
 
+  const handleInterestsButtonClick = () => {
+    setShowInterestsPopup(true);
+  };
+
+  const handleInterestsPopupClose = () => {
+    setShowInterestsPopup(false);
+  };
+
+  const handleCheckboxChange = (checkboxName) =>{
+    setIsChecked(prevState => ({
+      ...prevState,
+      [checkboxName]: !prevState[checkboxName]
+    }));
+  }
+
+  const [isChecked, setIsChecked] = useState({
+    checkbox1: false,
+    checkbox2: false,
+    checkbox3: false,
+    checkbox4: false,
+    checkbox5: false,
+    checkbox6: false,
+    checkbox7: false,
+    checkbox8: false,
+    checkbox9: false,
+    checkbox10: false,
+    checkbox11: false,
+    checkbox12: false,
+    checkbox13: false,
+    checkbox14: false,
+    checkbox15: false,
+    checkbox16: false,
+    checkbox17: false,
+    checkbox18: false,
+  });
+
+
   const headerStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -86,35 +187,11 @@ const PlanPage = () => {
   const rightStyle = {
     display: 'flex',
     alignItems: 'center',
-    height: '100%', // Ensures the container takes the full height of its parent
+    height: '100%', 
   };
 
   const spaceStyle = {
-    margin: '15px', // Adjust the space between the elements as needed
-  };
-
-  const styles = {
-    popup: {
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      backgroundColor: 'white',
-      padding: '20px',
-      borderRadius: '10px',
-      boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)',
-      zIndex: '999'
-    },
-    displayBlock: {
-      display: 'block'
-    },
-    displayNone: {
-      display: 'none'
-    },
-    popupHeader: {
-      display: 'flex',
-      justifyContent: 'flex-end'
-    }
+    margin: '15px', 
   };
 
   return (
@@ -122,35 +199,45 @@ const PlanPage = () => {
       <header style={headerStyle}>
         <div style={leftStyle}>
           <h1>WanderlustSG</h1>
+
           <span style={spaceStyle}></span>
-          <h2 style={{ marginTop: '5px' }} >
+
+          <h2 onClick={handleNavigateToHomePage} style={{ marginTop: '5px' }} >
           Home
           </h2>        
+
           <span style={spaceStyle}></span>
+
           <h2 onClick={handleReload} style={{ marginTop: '5px', color: '#FF4F00' }}>
             Plan
           </h2>
         </div>
       </header>
+
       <div style={{ marginTop: '50px', marginLeft: '20px' }}>
-        <button className="btn" style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', border:'transparent' }}> <span style={{ fontSize: '20px' }}> AI Recommendation </span></button>
+        <button className="btn" style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', 
+        color: 'white', fontSize: '15px', border:'transparent'}} onClick={handleInterestsButtonClick}> 
+        <span style={{ fontSize: '20px' }}> AI Recommendation </span></button>
       </div>
       <span style={spaceStyle}></span>
 
       <div className="container">
       <div className="scrollable-content">
         {/* Render your rows here */}
-          {imageData.map(image => (
+          {imageFilteredData.map(image => (
           <div key={image.id} className="row">
           <img 
               src={process.env.PUBLIC_URL + image.src} 
               alt={image.name} 
               style={{ width: '100px', height: '100px' }}
             />
-            <h2 style={{marginLeft: '50px'}}>{image.name}</h2>
+            <h2 onClick={()=>handleInfo(image.id)} style={{marginLeft: '50px'}}>{image.name}</h2>
             <button 
-            onClick={handleAddButtonClick}
-            style={{ padding: '10px 20px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', marginLeft: 'auto', outline:'none', border:'transparent'}}> 
+            onClick={()=>handleAddButtonClick(image.id)}
+            disabled={selectedImages.some(selectedImage => selectedImage.id === image.id)} 
+            style={{ padding: '10px 20px',borderRadius: '30px', 
+            backgroundColor: selectedImages.some(selectedImage => selectedImage.id === image.id) ? '#D3D3D3' : '#FF4F00',
+            color: 'white', fontSize: '15px', marginLeft: 'auto', outline:'none', border:'transparent'}}> 
             Add
             </button>
           </div>
@@ -165,15 +252,200 @@ const PlanPage = () => {
     </div>
     
     <div style={{ position: 'relative' }}>
-    <div className="gray-container" style={{margin: '20px'}}></div>
+    <div className="gray-container" style={{margin: '20px'}}>
+    {planInitiated && combinedImages.map(image => (
+      <div key={image.id} style={{ margin: '20px', display: 'inline-block', backgroundColor: 'white', borderRadius: '15px' }}>
+        <img 
+          src={process.env.PUBLIC_URL + image.src} 
+          alt={image.name}
+          style={{ width: '200px', height: '200px' }} 
+        />
+        <div style={{ textAlign: 'center' }}>{image.name}</div>
+      </div>
+    ))}
+
+    </div>
+
+    {showInterestsPopup && (
+      <>
+      <div className="overlay">
+        <div className="popup" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '999', color :"#00001C",  minWidth: '600px' }}>
+          <div className="popup-content" style={{ backgroundColor: 'white', padding: '30px 60px', borderRadius: '15px' }}>
+            <span className="close" onClick={handleInterestsPopupClose} style={{ fontSize: '30px' }}>&times;</span>
+            <h1 style={{marginBottom: '10px', marginTop: '10px', color :"#00001C"}}>I am Interested in ... </h1>
+            <h2 style={{fontSize:'2vw', marginBottom:"0.5vw", color :"#00001C"}}>Food</h2>
+            <div className="checkbox-container" style={{color :"#00001C"}}>
+
+            <div className="checkbox-container" style={{display:"flex", alignItems: "center"}}>
+              <input
+                type="checkbox"
+                className="custom-checkbox"
+                checked={isChecked.checkbox1}
+                onChange={() => handleCheckboxChange('checkbox1')}
+              />
+              <label style={{marginRight:"25px", width: "60px" }}>Chinese</label>
+        
+              <input
+                type="checkbox"
+                className="custom-checkbox"
+                checked={isChecked.checkbox2}
+                onChange={() => handleCheckboxChange('checkbox2')}
+              />
+              <label style={{marginRight:"25px", width: "80px"}}>Japanese</label>
+        
+              <input
+                type="checkbox"
+                className="custom-checkbox"
+                checked={isChecked.checkbox3}
+                onChange={() => handleCheckboxChange('checkbox3')}
+              />
+              <label style={{marginRight:"15px"}}>Indian</label>
+            </div>
+
+            <div className="checkbox-container" style={{display:"flex", alignItems: "center"}}>
+            <input
+              type="checkbox"
+              className="custom-checkbox"
+              checked={isChecked.checkbox4}
+              onChange={() => handleCheckboxChange('checkbox4')}
+            />
+            <label style={{marginRight:"25px", width: "60px"}}>Malay</label>
+       
+            <input
+              type="checkbox"
+              className="custom-checkbox"
+              checked={isChecked.checkbox5}
+              onChange={() => handleCheckboxChange('checkbox5')}
+            />
+            <label style={{marginRight:"25px", width: "80px"}}>Thailand</label>
+            
+            <input
+              type="checkbox"
+              className="custom-checkbox"
+              checked={isChecked.checkbox6}
+              onChange={() => handleCheckboxChange('checkbox6')}
+            />
+            <label style={{}}>Vietnam</label>
+          </div>
+
+          <div className="checkbox-container" style={{display:"flex", alignItems: "center"}}>
+          <input
+            type="checkbox"
+            className="custom-checkbox"
+            checked={isChecked.checkbox7}
+            onChange={() => handleCheckboxChange('checkbox7')}
+          />
+          <label style={{marginRight:"25px", width: "60px"}}>Singapore</label>
+        
+          <input
+            type="checkbox"
+            className="custom-checkbox"
+            checked={isChecked.checkbox8}
+            onChange={() => handleCheckboxChange('checkbox8')}
+          />
+          <label style={{ marginRight:"25px", width: "80px"}}>Western</label>
+       
+          <input
+            type="checkbox"
+            className="custom-checkbox"
+            checked={isChecked.checkbox9}
+            onChange={() => handleCheckboxChange('checkbox9')}
+          />
+          <label style={{}}>Others</label>
+        </div>
+      </div>
+            
+
+      <h3 style={{fontSize:'2vw', marginBottom:"0.2vw", marginTop:"0.6vw"}}>Preference...</h3>
+      <div className="checkbox-container" style={{display:"flex", alignItems: "center"}}>
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox10}
+          onChange={() => handleCheckboxChange('checkbox10')}
+        />
+        <label style={{marginRight:"25px", width: "60px"}}>Culture</label>
+        
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox11}
+          onChange={() => handleCheckboxChange('checkbox11')}
+        />
+        <label style={{marginRight:"25px", width: "80px"}}>City Walk</label>
+        
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox12}
+          onChange={() => handleCheckboxChange('checkbox12')}
+        />
+        <label style={{}}>Shopping</label>
+      </div>
+      <div className="checkbox-container" style={{display:"flex", alignItems: "center"}}>
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox13}
+          onChange={() => handleCheckboxChange('checkbox13')}
+        />
+        <label style={{marginRight:"25px", width: "60px"}}>Natural View</label>
+       
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox14}
+          onChange={() => handleCheckboxChange('checkbox14')}
+        />
+        <label style={{marginRight:"25px", width: "80px"}}>History</label>
+        
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox15}
+          onChange={() => handleCheckboxChange('checkbox15')}
+        />
+        <label style={{}}>Educational</label>
+      </div>
+      <div className="checkbox-container" style={{display:"flex", alignItems: "center"}}>
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox16}
+          onChange={() => handleCheckboxChange('checkbox16')}
+        />
+        <label style={{marginRight:"25px", width: "60px"}}>Local view</label>
+       
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox17}
+          onChange={() => handleCheckboxChange('checkbox17')}
+        />
+        <label style={{marginRight:"25px", width: "80px"}}>Amuzement Park</label>
+       
+        <input
+          type="checkbox"
+          className="custom-checkbox"
+          checked={isChecked.checkbox18}
+          onChange={() => handleCheckboxChange('checkbox18')}
+        />
+        <label style={{}}>Landmark</label>
+      </div>
+      <button  onClick={handleAISubmit} style={{ marginTop:"2vh",padding: '15px 30px',borderRadius: '30px', backgroundColor: '#FF4F00', color: 'white', fontSize: '15px', border:'transparent', marginLeft: '0px'}}>Submit</button>
+      </div>     
+      </div>
+    </div>
+      </>
+    )}
   
-    {showPopup && (
+    {showPlanModal && (
       <>
       <div className="overlay">
         <div className="popup" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '999' }}>
           <div className="popup-content" style={{ backgroundColor: 'white', padding: '30px 60px', borderRadius: '15px' }}>
             <span className="close" onClick={handlePopupClose} style={{ fontSize: '30px' }}>&times;</span>
-            <h1 style={{marginBottom: '10px', marginTop: '10px'}}>Plan Your Trip</h1>
+            <h1 style={{marginBottom: '20px', marginTop: '20px'}}>Plan Your Trip</h1>
             <div>
               <label htmlFor="budget" style={{marginRight: '10px'}}>Budget:</label>
               <input type="number" id="budget" value={budget} onChange={handleBudgetChange} style={{width:'100px'}}/>

@@ -1,4 +1,4 @@
-/* MainPage.css */
+/* PlanPage.css */
 
 h1 {
     color: #FF4F00;
@@ -73,3 +73,15 @@ img {
     max-height: 100%;
     object-fit: contain;
 }
+
+.checkbox-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap into new lines */
+    gap: 5px; /* Adds space between items */
+}
+
+
+
+
+
+  

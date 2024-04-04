@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* .checkbox-container {
+  display: flex;
+} */
+
+.column {
+  flex: 2;
+}
+
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.label {
+  margin-right: 10px;
+  margin-top: 25vw;
+}
+
