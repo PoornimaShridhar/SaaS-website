@@ -1,0 +1,148 @@
+/* HomePage.css */
+
+h1 {
+    color: #FF4F00;
+    font-family: 'Aclonica', sans-serif;
+    font-size: 25px;
+    margin: 0;
+}
+
+h2 {
+    font-family: 'Aclonica', sans-serif;
+    font-size: 15px;
+    margin: 5px;
+    margin-top: 20px;
+}
+
+h2 {
+    font-family: 'Aclonica', sans-serif;
+    font-size: 15px;
+    /* margin: 5px; */
+    margin-top: 0px;
+}
+
+p {
+    font-family: 'Emblema One', sans-serif;
+    font-size: 10px;
+    margin: 5px;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Adjust as needed */
+  }
+
+.nav-links {
+    display: flex;
+    gap: 3vw; /* Add a small space between links */
+    margin-right: 65vw;
+    margin-top: 1vh;
+  }
+
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    padding: 20px;
+    max-width: 1200px;
+    max-height: 600px;
+    margin: 0 auto;
+}
+    
+img {
+    max-width: 100%; 
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.navigation-bar {
+    display: flex;
+    justify-content: centre;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 0px; 
+    max-width: 1200px;
+    max-height: 600px;
+    margin: 0 auto;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #f4f0ec ;
+    border-radius: 10px;
+    height: 60px;
+    width: 98%;
+    margin-bottom: 10px;
+    max-width: 1200px;
+    max-height: 600px;
+    margin: 0 auto;
+}
+
+input {
+    width: 90%; 
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: #f4f0ec ;
+    height: 30px;
+    font-size: 16px;
+    margin: 20px 0 20px;
+}
+
+.search-icon {
+    background-color: #f4f0ec ;
+    color: #8D8585;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.post-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: centre;
+    align-items: flex-start; 
+    margin: 30px auto;
+    max-width: 1500px;
+    min-width: 1000px;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.post-column {
+    flex: 0 1 300px; /* Do not grow, but can shrink, with a base width of 300px */
+    margin: 0 10px; /* Keep your existing margin */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px; /* Ensure it does not grow beyond this width */
+}
+
+
+.post-column img {
+    width: 200px; 
+    height: 150px;
+    border-radius: 5px;
+}
+
+.image-name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555; 
+    font-weight: bold;
+    margin: 10px 10px;
+}
+
+
+
