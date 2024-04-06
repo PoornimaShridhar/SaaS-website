@@ -287,7 +287,7 @@ const PlanPage = () => {
         let style = {};
         if (index === 0) {
           style = { fontSize: '18px', fontWeight: 'bold', color: '#FF4F00' }; 
-        } else if (line.includes('Day')) {
+        } else if (line.includes('Day'||'##')) {
           style = { fontSize: '15px', fontWeight: 'bold' }; 
         } else {
           style = { fontSize: '15px'}; 

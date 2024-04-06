@@ -1,6 +1,6 @@
 import sys
 import cohere
-co = cohere.Client('Z7GO99urnRBjWHAFt0FUbjSMSSqPkjU1AipjjgBe')
+co = cohere.Client('Z7GO99urnRBjWHAFt0FUbjSMSSqPkjU1AipjjgBe') #using cohere api
 
 def generate_itinerary(budget, days, combinedImages):
     user_input = "{Traveling spots: "+ combinedImages + "Travel budget: "+ budget + "Travel period: "+ days + "}" #+travel preference
@@ -15,11 +15,11 @@ def generate_itinerary(budget, days, combinedImages):
 
     message = '''
     ## Instructions
-    Help travelers generate a day-by-day travel itinerary with detailed timing for each activity, e.g. Day 1: 10am-2pm. 
+    Help travelers generate a day-by-day travel itinerary with detailed timing for each activity, e.g. Day 1: 10am-2pm, 2pm-4pm. 
     Provide a summarised title at the top for each day.
     The itinerary should be based on the information provided: 1.traveling spots, 2.travel period, 3.travel budget, 4.travel preferences.
     Consider the time travelers need to spend at each traveling spots reasonably, and the travel time between locations. 
-    Strictly stick to the traveling spots provided unless the travel period is too long/too short for the traveling spots given.
+    Strictly stick to the traveling spots provided unless the travel period is too long/too short for the traveling spots given, you may adjust the sequence of visiting each traveling spot considering the distance in between each spot.
     If the travel period is too short and cannot include all traveling spots in the itinerary, make apology and explain the reason in the end.
     You may include any additional tips, insights, or local recommendations to enhance the travel experience.
 
@@ -29,9 +29,6 @@ def generate_itinerary(budget, days, combinedImages):
     response = co.chat(
     preamble = tour_guide_preamble,
     message=message
-    # perform web search before answering the question. You can also use your own custom connector.
-    # connectors=[{"id": "web-search"}]
-    # documents=
     )
     result = response.text
     return result
