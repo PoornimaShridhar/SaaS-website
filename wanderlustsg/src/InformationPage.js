@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoArrowBack } from "react-icons/io5";
 import { useParams } from 'react-router-dom';
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { HiOutlineCursorClick } from "react-icons/hi";
 
 
 
@@ -25,6 +26,10 @@ const InformationPage = () => {
 
   const handleImageClick = (imageId) => {
     navigate(`/info/${imageId}`); 
+  };
+
+  const handleNavigateToHomePage = () => {
+    navigate('/'); 
   };
 
   useEffect(() => {
@@ -96,10 +101,6 @@ const InformationPage = () => {
     margin: '15px', 
   };
 
-  const handleReload = () => {
-    window.location.reload(); 
-  };
-
   const handleBack = () => {
     window.history.back(); 
   };
@@ -122,7 +123,7 @@ const InformationPage = () => {
 
             <span style={spaceStyle}></span>
 
-            <h2 onClick={handleReload} style={{ marginTop: '5px', cursor: 'pointer', color: '#FF4F00'}} >
+            <h2 onClick={handleNavigateToHomePage } style={{ marginTop: '5px', cursor: 'pointer', color: '#FF4F00'}} >
             Home
             </h2>
 
@@ -140,9 +141,9 @@ const InformationPage = () => {
         <IoArrowBack onClick={handleBack} size={30} style={{ color: 'gray', marginLeft: '20px' }} />
         <div onClick={toggleLike} style={{ cursor: 'pointer' }}>
           {isLiked ? (
-            <FaHeart size={30} style={{ color: '#ff4500', marginRight: '50px' }}/>
+            <FaHeart size={30} style={{ color: '#ff4500', marginRight: '10px', marginLeft: '600px' }}/>
           ) : (
-            <FaRegHeart size={30} style={{ color: '#ff4500', marginRight: '50px' }}/>
+            <FaRegHeart size={30} style={{ color: '#ff4500', marginRight: '10px', marginLeft: '600px' }}/>
           )}
         </div>
       </div>
@@ -188,19 +189,43 @@ const InformationPage = () => {
       }}>
       {image.description}
       </div>
-
-      <div style={{
-        marginLeft: '100px',
-        marginRight: '50px', 
-        marginTop: '30px',
-        textAlign: 'start', 
-        maxWidth: '1200px', 
-      }}>
-        <h4>Link:</h4>
-        <a href={image.link} target="_blank" rel="noopener noreferrer">
-          {image.link}
+      <div style={{textAlign: 'center', marginTop: '20px'}}>
+      {image.link ? (
+        <>
+        <a href={image.link} target="_blank" rel="noopener noreferrer" style={{ 
+          display: 'inline-block', 
+          padding: '10px 20px', 
+          borderRadius: '15px', 
+          backgroundColor: 'white', 
+          color: '#FF4F00', 
+          borderColor: '#FF4F00',
+          borderWidth: '2px',
+          borderStyle: 'solid',
+          textDecoration: 'none',
+          fontWeight: 'bold'
+        }}>
+          Click for more information
         </a>
-      </div>
+        <HiOutlineCursorClick style={{color: '#FF4F00', fontSize: '30px', marginLeft: '10px'}}/>
+        </>
+      ) : (
+        <div style={{ 
+          display: 'inline-block', 
+          padding: '10px 20px', 
+          borderRadius: '15px', 
+          backgroundColor: '#e9ecef', // Light grey background for disabled appearance
+          color: '#6c757d', // Greyed out text
+          border: '2px solid #6c757d', // Greyed out border
+          textDecoration: 'none',
+          fontWeight: 'bold',
+          cursor: 'not-allowed', // Show the not-allowed cursor icon
+        }}>
+          Click for more information
+        </div>
+      )}
+      
+    </div>
+
 
       <div style={{
         marginLeft: '100px',
