@@ -104,6 +104,12 @@ const PlanPage = () => {
   const handleNavigateToHomePage = () => {
     navigate('/'); 
   };
+
+  const handleCleanAll = () => {
+    localStorage.removeItem('selectedChoices');
+    setImageFilteredData([]);
+  };
+  
   
 
   const handleAddButtonClick = (id) => {
@@ -217,7 +223,11 @@ const PlanPage = () => {
       <div style={{ marginTop: '50px', marginLeft: '20px' }}>
         <button className="btn" style={{ padding: '15px 50px',borderRadius: '30px', backgroundColor: '#FF4F00', 
         color: 'white', fontSize: '15px', border:'transparent'}} onClick={handleInterestsButtonClick}> 
-        <span style={{ fontSize: '20px' }}> AI Recommendation </span></button>
+        <span style={{ fontSize: '20px' }}> Recommendation </span></button>
+
+        <button className="btn" style={{ padding: '15px 30px',borderRadius: '30px', backgroundColor: '#FF4F00', 
+        color: 'white', fontSize: '15px', border:'transparent', marginLeft: '250px'}} onClick={handleCleanAll}> 
+        <span style={{ fontSize: '20px' }}> Clear All </span></button>
       </div>
       <span style={spaceStyle}></span>
 
