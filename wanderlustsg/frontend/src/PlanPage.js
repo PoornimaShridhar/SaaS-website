@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PlanPage.css';
 import { useNavigate } from 'react-router-dom';
-import Axios from "axios";
 
 const PlanPage = () => {
   const [boxSize, setBoxSize] = useState({ width: '90vm', height: 'auto' });
@@ -50,7 +49,7 @@ const PlanPage = () => {
     console.log('Data passed to backend:', data);
 
     try {
-      const response = await fetch('http://localhost:5000/getPlan', {
+      const response = await fetch('http://localhost:5010/getPlan', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
