@@ -1,9 +1,23 @@
 import sys
 import cohere
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 co = cohere.Client('Z7GO99urnRBjWHAFt0FUbjSMSSqPkjU1AipjjgBe') #using cohere api
 
+app = Flask(__name__)
+CORS(app)
+
+@app.route("/getPlan", methods=['POST'])
+def getPlan():
+    data = request.json
+    budget = data.get('budget')
+    days = data.get('days')
+    combinedImages = data.get('combinedImages')
+    result = generate_itinerary(budget, days, combinedImages)
+    return jsonify(result)
+    
 def generate_itinerary(budget, days, combinedImages):
-    user_input = "{Traveling spots: "+ combinedImages + "Travel budget: "+ budget + "Travel period: "+ days + "}" #+travel preference
+    user_input = "{Traveling spots: "+ combinedImages + "Travel budget: "+ str(budget) + "Travel period: "+ str(days) + "}" #+travel preference
 
     tour_guide_preamble = '''
     ## Task & Context
@@ -33,9 +47,5 @@ def generate_itinerary(budget, days, combinedImages):
     result = response.text
     return result
 
-budget = sys.argv[1]
-days = sys.argv[2]
-combinedImages = sys.argv[3]
-
-result = generate_itinerary(budget, days, combinedImages)
-print(result)
+if __name__ == "__main__":
+    app.run(debug=True)

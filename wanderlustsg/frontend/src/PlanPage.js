@@ -42,18 +42,27 @@ const PlanPage = () => {
     console.log('Budget:', budget, 'Days:', days, 'Likes:', likes, 'Selected Images:', selectedImages);
 
     //send combinedImages + budget/days to backend, await reply
-    const imagestr = combinedImages.map(image=>image.name).join(', ');
-    console.log('Selected/liked traveling spots:', imagestr);
+    const data = {
+      budget: budget,
+      days: days,
+      combinedImages: combinedImages.map(image=>image.name).join(', ')
+    };
+    console.log('Data passed to backend:', data);
+
     try {
-      const response=await Axios.get("http://localhost:5000/getPlan", {
-        params: {
-          budget: budget,
-          days: days,
-          combinedImages: imagestr
-        }
+      const response = await fetch('http://localhost:5000/getPlan', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
       });
-      setPlan(response.data.plan);
-      console.log('get plan:', response.data.plan);
+      if (!response.ok) {
+          throw new Error('Failed to fetch plan');
+      }
+      const responseData = await response.json();
+      setPlan(responseData);
+      console.log('get plan:', responseData);
     } catch (error){
       console.error('Error fetching plan:', error);
     }
@@ -287,7 +296,7 @@ const PlanPage = () => {
         let style = {};
         if (index === 0) {
           style = { fontSize: '18px', fontWeight: 'bold', color: '#FF4F00' }; 
-        } else if (line.includes('Day'||'##')) {
+        } else if (line.includes('Day')||line.includes('#')) {
           style = { fontSize: '15px', fontWeight: 'bold' }; 
         } else {
           style = { fontSize: '15px'}; 
