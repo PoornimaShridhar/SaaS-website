@@ -71,14 +71,47 @@ const PlanPage = () => {
     .map(([key]) => key.replace('checkbox', ''));
     
     console.log('Selection:', selections);
-    const filteredImages = imageData.filter(image => selections.includes(image.choice));
+    
+    try {
+      const food = [];
+      const pref = [];
+      selections.forEach((value, index) => {
+        if (value < 9) {
+            const t = value-1
+            food.push(t);
+        } else {
+            const temp = value-10
+            pref.push(temp);
+        }
+    });
+  
+    const input_json = { "food": food, "preference": pref };
+    console.log("User inputs : ")
+    const  u = {
+      food: input_json.food,
+      preference: input_json.preference
+  }
+    console.log(u)
+    const response = fetch('/reco/'+ JSON.stringify(u)).then(
+      res => res.json()
+    )
+    .then(response => {console.log(response["top_restaurants"]);
+            const res_data = response["top_restaurants"];
+            // console.log(res_data["Name"])
+            const names = Object.values(res_data["Name"]);
+            const filteredImages = imageData.filter(image => names.includes(image.name));
+            console.log("res_data:", res_data);
 
-    setImageFilteredData(filteredImages);
-
-    localStorage.setItem('selectedChoices', JSON.stringify(selections));
-
-    setShowInterestsPopup(false); 
-  };
+            setImageFilteredData(filteredImages);
+            localStorage.setItem('selectedChoices', JSON.stringify(selections));
+            setShowInterestsPopup(false); 
+          }
+        )
+      }
+      catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
   useEffect(() => {
     // Attempt to retrieve saved selections
