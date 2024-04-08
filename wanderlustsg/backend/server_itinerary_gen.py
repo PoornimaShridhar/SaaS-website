@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 co = cohere.Client('Z7GO99urnRBjWHAFt0FUbjSMSSqPkjU1AipjjgBe') #using cohere api
 
+
 app = Flask(__name__)
 CORS(app)
 
