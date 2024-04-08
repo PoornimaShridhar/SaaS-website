@@ -49,7 +49,7 @@ const PlanPage = () => {
     console.log('Data passed to backend:', data);
 
     try {
-      const response = await fetch('http://localhost:5010/getPlan', {
+      const response = await fetch('/getPlan', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
