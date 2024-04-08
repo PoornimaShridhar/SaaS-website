@@ -15,6 +15,7 @@ const PlanPage = () => {
   const [likedImages, setLikedImages] = useState([]);
   const [planInitiated, setPlanInitiated] = useState(false);
   const combinedImages = [...selectedImages, ...likedImages.filter(li => !selectedImages.some(si => si.id === li.id))];
+  const [plan, setPlan]=useState("");
 
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const PlanPage = () => {
     setShowPlanModal(true);
   };
   
-  const handlePlanSubmit = (event) => {
+  const handlePlanSubmit = async (event) => {
     // Handle submission of budget and days
     console.log('Budget:', budget);
     console.log('Days:', days);
@@ -39,6 +40,31 @@ const PlanPage = () => {
 
     console.log('Budget:', budget, 'Days:', days, 'Likes:', likes, 'Selected Images:', selectedImages);
 
+    //send combinedImages + budget/days to backend, await reply
+    const data = {
+      budget: budget,
+      days: days,
+      combinedImages: combinedImages.map(image=>image.name).join(', ')
+    };
+    console.log('Data passed to backend:', data);
+
+    try {
+      const response = await fetch('/getPlan', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+      });
+      if (!response.ok) {
+          throw new Error('Failed to fetch plan');
+      }
+      const responseData = await response.json();
+      setPlan(responseData);
+      console.log('get plan:', responseData);
+    } catch (error){
+      console.error('Error fetching plan:', error);
+    }
   };
 
   const handlePopupClose = () => {
@@ -274,6 +300,21 @@ const PlanPage = () => {
       </div>
     ))}
 
+    <div className="plan-text">
+      {plan.split('\n').map((line, index) => {
+        let style = {};
+        if (index === 0) {
+          style = { fontSize: '18px', fontWeight: 'bold', color: '#FF4F00' }; 
+        } else if (line.includes('Day')||line.includes('#')) {
+          style = { fontSize: '15px', fontWeight: 'bold' }; 
+        } else {
+          style = { fontSize: '15px'}; 
+        }
+        return (
+          <p key={index} style={style}>{line}</p>
+        );
+      })}
+    </div>
     </div>
 
     {showInterestsPopup && (
