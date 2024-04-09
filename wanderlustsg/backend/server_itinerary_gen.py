@@ -24,7 +24,7 @@ def generate_itinerary(budget, days, combinedImages):
     You are a profesisonal travel assistant in Singapore.
 
     ## Style Guide
-    Be professional and concise, while including some necessary details/introduction of each traveling spot.
+    Be professional and concise, while including some necessary details/introduction of each traveling spot. 
     '''
 
     message = '''
@@ -45,6 +45,8 @@ def generate_itinerary(budget, days, combinedImages):
     message=message
     )
     result = response.text
+    result = result.replace("#","")
+    result = result.replace("*","")
     return result
 
 if __name__ == "__main__":
