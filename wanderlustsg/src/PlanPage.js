@@ -16,8 +16,8 @@ const PlanPage = () => {
   const [planInitiated, setPlanInitiated] = useState(false);
   const combinedImages = [...selectedImages, ...likedImages.filter(li => !selectedImages.some(si => si.id === li.id))];
   const [plan, setPlan]=useState("");
-
-
+  const [isLoading, setIsLoading] = useState(false);
+  
   useEffect(() => {
     const likedIds = JSON.parse(localStorage.getItem('likes')) || [];
     const likedImages = imageData.filter(image => likedIds.includes(image.id.toString()));
@@ -36,6 +36,7 @@ const PlanPage = () => {
     event.preventDefault();
     setShowPlanModal(false); 
     setPlanInitiated(true);
+    setIsLoading(true);
     const likes = JSON.parse(localStorage.getItem('likes')) || [];
 
     console.log('Budget:', budget, 'Days:', days, 'Likes:', likes, 'Selected Images:', selectedImages);
@@ -65,6 +66,8 @@ const PlanPage = () => {
       console.log('get plan:', responseData);
     } catch (error){
       console.error('Error fetching plan:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -289,24 +292,20 @@ const PlanPage = () => {
     </div>
     
     <div style={{ position: 'relative' }}>
-    <div className="gray-container" style={{margin: '20px'}}>
-    {/* {planInitiated && combinedImages.map(image => (
-      <div key={image.id} style={{ margin: '20px', display: 'inline-block', backgroundColor: 'white', borderRadius: '15px' }}>
-        <img 
-          src={process.env.PUBLIC_URL + image.src} 
-          alt={image.name}
-          style={{ width: '200px', height: '200px' }} 
-        />
-        <div style={{ textAlign: 'center' }}>{image.name}</div>
+    {isLoading ? (
+      <div className="loading-container" style={{ textAlign: 'center', padding: '20px' }}>
+        {/* Here you can add any loading animation you prefer */}
+        <img src="/loading.gif" alt="Loading..." style={{ width: '200px', height: 'auto' }} />
+        <h2 style={{color: 'black'}}>Loading...</h2>
       </div>
-    ))} */}
-
-    <div className="plan-text">
+    ) : (
+    <div className="gray-container" style={{margin: '20px', padding: '10px',}}>
+    <div className="plan-text" style={{margin: '20px 10px'}}>
       {plan.split('\n').map((line, index) => {
         let style = {};
         if (index === 0) {
-          style = { fontSize: '18px', fontWeight: 'bold', color: '#FF4F00', fontFamily: "'Aclonica', sans-serif" }; 
-        } else if (line.includes('Day')||line.includes('#')) {
+          style = { fontSize: '18px', fontWeight: 'bold', color: '#FF4F00', fontFamily: "'Aclonica', sans-serif"}; 
+        } else if (line.includes('Day')) {
           style = { fontSize: '15px', fontWeight: 'bold', fontFamily: "'Aclonica', sans-serif" }; 
         } else {
           style = { fontSize: '15px'}; 
@@ -317,6 +316,7 @@ const PlanPage = () => {
       })}
     </div>
     </div>
+    )}
 
     {showInterestsPopup && (
       <>
