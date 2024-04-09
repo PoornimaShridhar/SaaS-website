@@ -50,6 +50,7 @@ const PlanPage = () => {
 
     try {
       const response = await fetch('/getPlan', {
+          localhost: 3000,
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -289,7 +290,7 @@ const PlanPage = () => {
     
     <div style={{ position: 'relative' }}>
     <div className="gray-container" style={{margin: '20px'}}>
-    {planInitiated && combinedImages.map(image => (
+    {/* {planInitiated && combinedImages.map(image => (
       <div key={image.id} style={{ margin: '20px', display: 'inline-block', backgroundColor: 'white', borderRadius: '15px' }}>
         <img 
           src={process.env.PUBLIC_URL + image.src} 
@@ -298,15 +299,15 @@ const PlanPage = () => {
         />
         <div style={{ textAlign: 'center' }}>{image.name}</div>
       </div>
-    ))}
+    ))} */}
 
     <div className="plan-text">
       {plan.split('\n').map((line, index) => {
         let style = {};
         if (index === 0) {
-          style = { fontSize: '18px', fontWeight: 'bold', color: '#FF4F00' }; 
+          style = { fontSize: '18px', fontWeight: 'bold', color: '#FF4F00', fontFamily: "'Aclonica', sans-serif" }; 
         } else if (line.includes('Day')||line.includes('#')) {
-          style = { fontSize: '15px', fontWeight: 'bold' }; 
+          style = { fontSize: '15px', fontWeight: 'bold', fontFamily: "'Aclonica', sans-serif" }; 
         } else {
           style = { fontSize: '15px'}; 
         }
