@@ -1,0 +1,46 @@
+/* InformationPage.css */
+
+h1 {
+    color: #FF4F00;
+    font-family: 'Aclonica', sans-serif;
+    font-size: 25px;
+    margin: 0;
+}
+
+h2 {
+    font-family: 'Aclonica', sans-serif;
+    font-size: 15px;
+    margin: 5px;
+    margin-top: 20px;
+}
+
+h3 {
+    color: black;
+    font-family: 'Aclonica', sans-serif;
+    font-size: 35px;
+    margin: 0;
+}
+
+h4 {
+    color: black;
+    font-family: 'Aclonica', sans-serif;
+    font-size: 20px;
+    margin: 0;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    padding: 20px;
+    max-width: 1200px;
+    max-height: 600px;
+    margin: 0 auto;
+}
+    
+img {
+    max-width: 100%; 
+    max-height: 100%;
+    object-fit: contain;
+}
