@@ -51,7 +51,6 @@ const PlanPage = () => {
 
     try {
       const response = await fetch('/getPlan', {
-          localhost: 3000,
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'

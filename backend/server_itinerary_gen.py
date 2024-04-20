@@ -1,11 +1,23 @@
+import os
 import sys
 import cohere
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,send_from_directory
 from flask_cors import CORS
 co = cohere.Client('Z7GO99urnRBjWHAFt0FUbjSMSSqPkjU1AipjjgBe') #using cohere api
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_folder='build')
 CORS(app)
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
+
 
 @app.route("/getPlan", methods=['POST'])
 def getPlan():
@@ -51,3 +63,5 @@ def generate_itinerary(budget, days, combinedImages):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+# {"budget":2500,"days":2,"combinedImages":"The Curry Culture - Cuppage Terrace"}
